@@ -1,59 +1,41 @@
+//Nathan Wheeler Data Structures
 import java.io.*; // for I/O
 import java.util.*;
 
 class n00871989
 {
-  //Sums the array
-   public static int sumArray(int[] array){
-   int sum = 0;
-   for (int i = 0; i<array.length; i++){
-	sum += array[i];
-   }
-   return sum;
+	public static int[] knapSack(int[] items, int target, int first, int size){
+
+		if(target > 0)
+		{
+			
+			for(int i= first; i < items.length; i++)
+			{
+				
+				int [] answer = knapSack(items, target-items[i], i+1, size+1);
+
+				if (answer != null)
+				{
+					answer[size] = items[i];
+					return answer;
+				}
+			}
+
+			return null;
+		}
+
+		else if(target==0)
+		{
+			int[] temp = new int[size];
+			return temp;
+		}
+		
+		else 
+			return null;
+
 	}
-   
-//Knapsack function
-public static int[] knapsack(int capacity, int[] ar){
-  
-    if ( ar.length == 0 ) {
-    return ar;
-        }
-        
-  
-
-int[] nar = new int[ar.length-1];
-System.arraycopy(ar, 1, nar, 0, nar.length);
-int sum = sumArray(ar); // sum of ar is 37
-if(sum == capacity){
-   System.out.print("Equal to");
-	return  ar;
-}
-//Base Case
 
 
-
-int first = ar[0];
-int newWeight = capacity - first;
-
-//First item is too small
-if (first < capacity){
-System.out.print(first);
-System.out.print("Less than");
-System.out.print(capacity);
-knapsack(newWeight, nar);
-}
-else if (first > capacity){
-System.out.print(first);
-System.out.print("Greater than");
-System.out.print(capacity);
-knapsack(capacity, nar);
-}
-
-System.out.print(Arrays.toString(ar));
-
-return ar;
-}
-//
 
 ////////////////////////////////////////////////////////
 public static void main(String[] args) throws IOException
@@ -81,8 +63,13 @@ else{
 //This is where the main code will go. We now have the capacity and the input array
 
 
-
-int result[] = knapsack(capacity, intInputArray);
+int[] result = knapSack(intInputArray, capacity, 0, 0);
+	    	if(result == null)
+	    		System.out.println("No solution");
+	    	else
+	    		for(int j=0; j < result.length; j++)
+	    			System.out.println(result[j]);
+//knapsack(capacity, intInputArray);
 
    
 //for(int i = 0; i < intInputArray.length ;i++){
